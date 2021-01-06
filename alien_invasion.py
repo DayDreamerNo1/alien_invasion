@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -19,6 +20,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
         # 设置背景色。
         self.bg_color = (230, 230, 230)
 
@@ -31,7 +35,11 @@ class AlienInvasion:
             self._update_bullets()
             self._update_screen()
 
-
+    def _create_fleet(self):
+        """创建外星人群"""
+        # 创建一个外星人
+        alien = Alien(self)
+        self.aliens.add(alien)
 
     def _check_events(self):
         # 响应按键和鼠标事件
@@ -88,6 +96,7 @@ class AlienInvasion:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         # 让最近绘制的屏幕可见。
         pygame.display.flip()
 
